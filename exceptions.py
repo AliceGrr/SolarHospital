@@ -1,19 +1,10 @@
-class StopException(Exception):
-    pass
-
-
-class TooLowIDException(Exception):
-    pass
-
-
-class UnknownCommandException(Exception):
-    pass
-
-
 class UnknownIDException(Exception):
-    pass
+    message = 'Ошибка. В больнице нет пациента с таким ID'
 
 
 class InvalidIDException(Exception):
-    pass
+    message = 'Ошибка. ID пациента должно быть числом (целым, положительным)'
+
+class StatusTooLowException(Exception):
+    message = 'Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)'
 
