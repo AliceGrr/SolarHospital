@@ -5,21 +5,24 @@ from translator import Translator
 
 class Registrar:
     def __init__(self):
-        self.translator = Translator()
-        self.coordinator = Coordinator(self.translator)
+        self._translator = Translator()
+        self._coordinator = Coordinator(self._translator)
 
     def start(self):
         while True:
-            try:
-                command = self.translator.ask_command()
-            except InvalidIDException as ex:
-                self.translator.answer_exception(ex)
-            else:
-                if not command:
-                    self.translator.answer_unknown_command()
-                elif command == 'stop':
-                    self.translator.answer_stop()
+            command = self._translator.ask_command()
+            match command:
+                case 'stop':
+                    self._translator.answer_stop()
                     break
-                else:
-                    self.coordinator.call_worker(command)
+                case 'status_up':
+                    self._coordinator.status_up()
+                case 'get_status':
+                    self._coordinator.get_status()
+                case 'discharge':
+                    self._coordinator.discharge()
+                case 'calculate_statistics':
+                    self._coordinator.calculate_statistics()
+                case _:
+                    self._translator.answer_unknown_command()
 

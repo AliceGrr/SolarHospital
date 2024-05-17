@@ -20,10 +20,10 @@ class Messages:
 
 
 class Translator:
-    ID_OFFSET = 1
+    _ID_OFFSET = 1
 
     def __init__(self):
-        self.commands = {
+        self._commands = {
             'get_status': ('get status', 'узнать статус пациента'),
             'status_up': ('status up', 'повысить статус пациента'),
             'status_down': ('status down', 'понизить статус пациента'),
@@ -32,7 +32,7 @@ class Translator:
             'stop': ('stop', 'стоп')
         }
 
-    def validate_and_translate_id_input(self, user_input):
+    def _validate_and_translate_id_input(self, user_input):
         if '.' in user_input or ',' in user_input:
             raise InvalidIDException()
 
@@ -45,24 +45,24 @@ class Translator:
 
         if int_id <= 0:
             raise InvalidIDException()
-        return int_id-self.ID_OFFSET
+        return int_id-self._ID_OFFSET
 
-    def translate_command_input(self, user_input):
+    def _translate_command_input(self, user_input):
         command = None
         lowered_user_input = user_input.lower()
-        for k, v in self.commands.items():
+        for k, v in self._commands.items():
             if lowered_user_input in v:
                 command = k
         return command
 
     def ask_command(self):
         user_input = input(Messages.ENTER_COMMAND)
-        translated = self.translate_command_input(user_input)
+        translated = self._translate_command_input(user_input)
         return translated
 
     def ask_id(self):
         user_input = input(Messages.ENTER_ID)
-        translated = self.validate_and_translate_id_input(user_input)
+        translated = self._validate_and_translate_id_input(user_input)
         return translated
 
     def answer_stop(self):
