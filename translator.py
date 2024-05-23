@@ -6,9 +6,9 @@ class Messages:
     ENTER_COMMAND = 'Введите команду: '
     ENTER_ID = 'Введите ID пациента: '
 
-    PATIENT_STATUS = 'Статус пациента: {}'
-    NEW_PATIENT_STATUS = 'Новый статус пациента: {}'
-    PATIENT_STATUS_NOT_CHANGED = 'Пациент остался в статусе {}'
+    PATIENT_STATUS = 'Статус пациента: "{}"'
+    NEW_PATIENT_STATUS = 'Новый статус пациента: "{}"'
+    PATIENT_STATUS_NOT_CHANGED = 'Пациент остался в статусе "{}"'
 
     DISCHARGE_REQUEST = 'Желаете этого клиента выписать? (да/нет): '
 

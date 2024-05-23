@@ -1,5 +1,4 @@
 from coordinator import Coordinator
-from exceptions import InvalidIDException
 from translator import Translator
 
 
@@ -19,8 +18,6 @@ class Registrar:
                     self._coordinator.status_up()
                 case 'get_status':
                     self._coordinator.get_status()
-                case 'discharge':
-                    self._coordinator.discharge()
                 case 'calculate_statistics':
                     self._coordinator.calculate_statistics()
                 case _:

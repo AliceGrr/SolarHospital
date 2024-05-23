@@ -3,10 +3,10 @@ from exceptions import UnknownIDException, StatusTooLowException
 
 class HeadOfPatients:
     _PATIENT_STATES = {
-        0: "\"Тяжело болен\"",
-        1: "\"Болен\"",
-        2: "\"Слегка болен\"",
-        3: "\"Готов к выписке\""
+        0: "Тяжело болен",
+        1: "Болен",
+        2: "Слегка болен",
+        3: "Готов к выписке"
     }
     _MAX_PATIENT_STATUS = 3
     _MIN_PATIENT_STATUS = 0
