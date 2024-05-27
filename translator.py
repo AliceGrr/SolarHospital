@@ -20,7 +20,6 @@ class Messages:
 
 
 class Translator:
-    _ID_OFFSET = 1
 
     def __init__(self):
         self._commands = {
@@ -45,7 +44,7 @@ class Translator:
 
         if int_id <= 0:
             raise InvalidIDException()
-        return int_id-self._ID_OFFSET
+        return int_id
 
     def _translate_command_input(self, user_input):
         command = None

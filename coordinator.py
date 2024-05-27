@@ -8,9 +8,9 @@ class Coordinator:
 
     _EMPTY_STATISTICS = 'В больнице на данный момент нет пациентов. Все вылечились :)'
 
-    def __init__(self, translator):
+    def __init__(self, translator, head_of_patients):
         self._translator = translator
-        self._head_of_patients = HeadOfPatients()
+        self._head_of_patients = head_of_patients
 
     def status_up(self):
         try:

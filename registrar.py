@@ -3,9 +3,9 @@ from translator import Translator
 
 
 class Registrar:
-    def __init__(self):
-        self._translator = Translator()
-        self._coordinator = Coordinator(self._translator)
+    def __init__(self, translator, coordinator):
+        self._translator = translator
+        self._coordinator = coordinator
 
     def start(self):
         while True:
