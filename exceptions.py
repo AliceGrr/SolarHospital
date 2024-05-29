@@ -1,4 +1,4 @@
-class UnknownIDException(Exception):
+class PatientsNotExistsException(Exception):
     message = 'Ошибка. В больнице нет пациента с таким ID'
 
 

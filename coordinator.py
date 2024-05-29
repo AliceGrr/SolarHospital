@@ -1,5 +1,4 @@
-from exceptions import InvalidIDException, UnknownIDException
-from head_of_patients import HeadOfPatients
+from exceptions import InvalidIDException, PatientsNotExistsException
 
 
 class Coordinator:
@@ -27,7 +26,7 @@ class Coordinator:
                 else:
                     status = self._head_of_patients.get_status(patient_id)
                     self._translator.answer_status_not_changed(status)
-        except UnknownIDException as ex:
+        except PatientsNotExistsException as ex:
             self._translator.answer_exception(ex)
         except InvalidIDException as ex:
             self._translator.answer_exception(ex)
@@ -39,7 +38,7 @@ class Coordinator:
             self._translator.answer_status(status)
         except InvalidIDException as ex:
             self._translator.answer_exception(ex)
-        except UnknownIDException as ex:
+        except PatientsNotExistsException as ex:
             self._translator.answer_exception(ex)
 
     def calculate_statistics(self):

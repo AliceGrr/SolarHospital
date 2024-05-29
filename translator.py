@@ -93,5 +93,4 @@ class Translator:
 
     def ask_agreement(self):
         user_input = input(Messages.DISCHARGE_REQUEST)
-        if user_input.lower() == Messages.AGREE:
-            return True
+        return user_input.lower() == Messages.AGREE

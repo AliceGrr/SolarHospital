@@ -1,65 +1,87 @@
 import pytest
 
-from exceptions import UnknownIDException, StatusTooLowException
+from exceptions import PatientsNotExistsException, StatusTooLowException
 from head_of_patients import HeadOfPatients
 
-test_get_status_data = [
-    ([0], 1, 'Тяжело болен'),
-    ([1], 1, 'Болен'),
-    ([2], 1, 'Слегка болен'),
-    ([3], 1, 'Готов к выписке'),
-]
 
-
-@pytest.mark.parametrize("patients,index,expected", test_get_status_data)
-def test_get_status(patients, index, expected):
-    head_of_patients = HeadOfPatients(patients)
-    assert head_of_patients.get_status(index) == expected
-
-
-def test_get_unknown_id():
-    head_of_patients = HeadOfPatients([])
-    with pytest.raises(UnknownIDException):
-        head_of_patients.get_status(1)
-
-
-def test_status_up():
-    head_of_patients = HeadOfPatients([1])
-    head_of_patients.status_up(1)
+def test_get_status():
+    head_of_patients = HeadOfPatients([2, 0, 3])
     assert head_of_patients.get_status(1) == 'Слегка болен'
 
 
+test_get_status_data = [
+    (2, 'Тяжело болен'),
+    (4, 'Болен'),
+    (1, 'Слегка болен'),
+    (3, 'Готов к выписке'),
+]
+
+
+@pytest.mark.parametrize("index,expected_state", test_get_status_data)
+def test_get_status_all_statuses(index, expected_state):
+    head_of_patients = HeadOfPatients([2, 0, 3, 1])
+
+    assert head_of_patients.get_status(index) == expected_state
+
+
+def test_get_status_when_patient_not_exists():
+    head_of_patients = HeadOfPatients([2, 0, 3])
+    with pytest.raises(PatientsNotExistsException):
+        head_of_patients.get_status(5)
+
+
+def test_get_status_when_no_patients():
+    head_of_patients = HeadOfPatients([])
+    with pytest.raises(PatientsNotExistsException):
+        head_of_patients.get_status(5)
+
+
+def test_status_up():
+    head_of_patients = HeadOfPatients([2, 0, 3])
+
+    head_of_patients.status_up(1)
+
+    assert head_of_patients._patients == [3, 0, 3]
+
+
 def test_status_down():
-    head_of_patients = HeadOfPatients([1])
+    head_of_patients = HeadOfPatients([2, 0, 3])
+
     head_of_patients.status_down(1)
-    assert head_of_patients.get_status(1) == 'Тяжело болен'
+
+    assert head_of_patients._patients == [1, 0, 3]
 
 
 def test_status_too_low():
-    head_of_patients = HeadOfPatients([0])
+    head_of_patients = HeadOfPatients([2, 0, 3])
+
     with pytest.raises(StatusTooLowException):
-        head_of_patients.status_down(1)
+        head_of_patients.status_down(2)
 
 
 def test_calculate_statistics():
-    patients = [0, 1, 1, 2, 2, 2, 3, 3, 3, 3]
+    patients = [3, 1, 3, 0, 0, 2, 1, 3, 2, 2, 2]
     head_of_patients = HeadOfPatients(patients)
+
     length, statistics = head_of_patients.get_statistics()
+
     assert length == len(patients)
-    assert statistics == {'Тяжело болен': 1, 'Болен': 2, 'Слегка болен': 3, 'Готов к выписке': 4}
+    assert statistics == {'Тяжело болен': 2, 'Болен': 2, 'Слегка болен': 4, 'Готов к выписке': 3}
+
+
+def test_calculate_statistics_when_not_all_statuses():
+    patients = [1, 0, 0, 2, 1, 2, 2, 2]
+    head_of_patients = HeadOfPatients(patients)
+
+    length, statistics = head_of_patients.get_statistics()
+
+    assert length == len(patients)
+    assert statistics == {'Тяжело болен': 2, 'Болен': 2, 'Слегка болен': 4}
 
 
 def test_discharge():
-    head_of_patients = HeadOfPatients([1])
-    head_of_patients.discharge(1)
-    assert len(head_of_patients._patients) == 0
+    head_of_patients = HeadOfPatients([2, 0, 3])
 
+    head_of_patients.discharge(2)
 
-if __name__ == '__main__':
-    test_discharge()
-    test_calculate_statistics()
-    test_status_too_low()
-    test_status_up()
-    test_status_down()
-    test_get_status()
-    test_get_unknown_id()
+    assert head_of_patients._patients == [2, 3]
