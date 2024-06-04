@@ -3,7 +3,8 @@ from exceptions import InvalidIDException
 
 class DialogWithUser:
 
-    def __init__(self):
+    def __init__(self, console):
+        self._console = console
         self._commands = {
             'get_status': ('get status', 'узнать статус пациента'),
             'status_up': ('status up', 'повысить статус пациента'),
@@ -35,36 +36,36 @@ class DialogWithUser:
         return command
 
     def ask_command(self):
-        user_input = input('Введите команду: ')
-        translated = self._convert_user_input_to_command(user_input)
-        return translated
+        user_input = self._console.input('Введите команду: ')
+        converted = self._convert_user_input_to_command(user_input)
+        return converted
 
     def ask_id(self):
-        user_input = input('Введите ID пациента: ')
-        translated = self._convert_str_user_input_to_int_id(user_input)
-        return translated
+        user_input = self._console.input('Введите ID пациента: ')
+        converted = self._convert_str_user_input_to_int_id(user_input)
+        return converted
 
     def answer_stop_app(self):
-        print('Сеанс завершён.')
+        self._console.print('Сеанс завершён.')
 
     def answer_patient_status(self, status):
-        print(f'Статус пациента: "{status}"')
+        self._console.print(f'Статус пациента: "{status}"')
 
     def answer_patient_discharged(self):
-        print('Пациент выписан из больницы')
+        self._console.print('Пациент выписан из больницы')
 
     def answer_patient_status_changed(self, status):
-        print(f'Новый статус пациента: "{status}"')
+        self._console.print(f'Новый статус пациента: "{status}"')
 
     def answer_patient_status_not_changed(self, status):
-        print(f'Пациент остался в статусе "{status}"')
+        self._console.print(f'Пациент остался в статусе "{status}"')
 
     def answer_got_unknown_command(self):
-        print('Неизвестная команда! Попробуйте ещё раз')
+        self._console.print('Неизвестная команда! Попробуйте ещё раз')
 
     def answer(self, msg):
-        print(msg)
+        self._console.print(msg)
 
     def ask_agreement_to_discharge_patient(self):
-        user_input = input('Желаете этого клиента выписать? (да/нет): ')
+        user_input = self._console.input('Желаете этого клиента выписать? (да/нет): ')
         return user_input.lower() == 'да'
