@@ -11,15 +11,14 @@ def test_get_status():
 
     coordinator.get_status()
 
-    coordinator._translator.answer_status.assert_called_with('Болен')
+    coordinator._translator.answer_patient_status.assert_called_with('Болен')
 
 
 def test_get_status_when_patient_not_exists():
     coordinator = Coordinator(MagicMock(), MagicMock())
-    ex = PatientsNotExistsException()
-    coordinator._head_of_patients.get_status = MagicMock(side_effect=ex)
+    coordinator._head_of_patients.get_status = MagicMock(side_effect=PatientsNotExistsException())
     coordinator._translator.ask_id = MagicMock(return_value=1)
 
     coordinator.get_status()
 
-    coordinator._translator.answer_exception.assert_called_with(ex)
+    coordinator._translator.answer.assert_called_with(PatientsNotExistsException.message)
