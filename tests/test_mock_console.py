@@ -46,6 +46,15 @@ def test_print_when_invalid_order_of_output_message():
         console.print('Второе сообщение')
 
 
+def test_print_when_invalid_order_of_requests():
+    console = MockConsole()
+    console.add_expected_request_and_response('Введите команду: ', 'узнать статус пациента')
+    console.add_expected_request_and_response('Введите ID пациента: ', '7')
+
+    with pytest.raises(AssertionError):
+        console.input('Введите ID пациента: ')
+
+
 def test_print_when_list_of_expected_messages_is_empty():
     console = MockConsole()
     console.add_expected_output_message('Сообщение')
